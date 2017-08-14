@@ -16,6 +16,8 @@ LIST_SOURCES=config.LIST_SOURCES
 SPATIAL_THRESHOLD=config.SPATIAL_THRESHOLD
 DIR_DATAANALYSIS=config.DIR_DATAANALYSIS
 #########################################
+threshold = (80.0/336.0)
+
 feeds=[]
 ind_feeds=[]
 emi_feeds=[]
@@ -70,8 +72,8 @@ for source in LIST_SOURCES:
 			temp = {'device_id':splitted[-2],'1':nocomment,'2':emission,'3':indoor}
 			feeds.append(temp)
 			compare=[indoor,emission,nocomment]
-			if compare.index(max(compare))==0 and indoor>=1.0/3.0:
-				temp = {'device_id':splitted[-2],'rate':indoor}
+			if compare.index(max(compare))==0 and indoor>=threshold:
+				temp = {'device_id':splitted[-2]}
 				ind_feeds.append(temp)
 			if compare.index(max(compare))==1 and emission>=1.0/3.0:
 				temp = {'device_id':splitted[-2],'rate':emission}
