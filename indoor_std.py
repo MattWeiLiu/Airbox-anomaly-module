@@ -55,7 +55,7 @@ for tmp in array:
 					neighbor_std.append(array[neighbor_id][0]) or neighbor_med.append(array[neighbor_id][1])
 				except:pass
 			pm_level=config.get_pm_level(np.median(neighbor_med))
-			if len(neighbor_std)>= 3 and np.median(neighbor_std) - array.get(tmp)[0] >= 1 and np.median(neighbor_med) - array.get(tmp)[1] >= SPATIAL_THRESHOLD[pm_level]:
+			if len(neighbor_std)>= 3 and np.median(neighbor_std) - array.get(tmp)[0] < 1 and np.median(neighbor_med) - array.get(tmp)[1] < SPATIAL_THRESHOLD[pm_level]:
 				temp2={'device_id':tmp,'rate':1}
 				feeds.append(temp2)
 	except:pass

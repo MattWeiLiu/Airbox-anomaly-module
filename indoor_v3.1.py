@@ -13,33 +13,35 @@ INDOOR_1_std=DIR_DATAANALYSIS+'device_indoor_1_std.json'
 d14={}
 d1std = {}
 feeds=[]
-key=[]
+# key=[]
+a=[]
+b=[]
 
 
 with open(INDOOR_14_PATH,'r') as f:
 	indoor14=json.load(f)
 for device in indoor14['feeds']:
 	d14[device['device_id']]=device['rate']
-	key.append(device['device_id'])
+	b.append(device['device_id'])
 
 with open(INDOOR_1_std,'r') as f:
 	indoor1std=json.load(f)
 for device in indoor1std['feeds']:
 	d1std[device['device_id']]=device['rate']
-	key.append(device['device_id'])
+	a.append(device['device_id'])
 
 
-key=set(key)
+feeds=set(b).difference(set(a))
 
-for i in key:
-	if i not in d1std:
-		d1std[i]=0
-	if i not in d14:
-		d14[i]=0
-	if d14[i]>threshold or d1std[i] >= 1 :
-		temp={'device_id':i}
-		feeds.append(temp)
-		print i
+# for i in key:
+# 	if i not in d1std:
+# 		d1std[i]=0
+# 	if i not in d14:
+# 		d14[i]=0
+# 	if d14[i]>threshold or d1std[i] >= 1 :
+# 		temp={'device_id':i}
+# 		feeds.append(temp)
+# 		print i
 
 
 msg = {}
