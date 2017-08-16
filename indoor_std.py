@@ -3,6 +3,7 @@
 #-*- coding: 'utf-8' -*-
 import pandas as pd
 import numpy as np
+from scipy import stats
 import csv
 import json
 import glob
@@ -34,7 +35,7 @@ for source in LIST_SOURCES:
 			df=df[df[0].str.startswith(day)]
 			if df.shape[0]>=50:
 				splitted=csv_path.split('/')
-				temp ={str(splitted[-2]):[np.std(df[1]),np.median(df[1])]}
+				temp ={str(splitted[-2]):[np.std(df[1]),stats.trim_mean(df[1], 0.1)]}
 				array.update(temp)
 		except:pass
 
@@ -54,8 +55,11 @@ for tmp in array:
 				try:
 					neighbor_std.append(array[neighbor_id][0]) or neighbor_med.append(array[neighbor_id][1])
 				except:pass
-			pm_level=config.get_pm_level(np.median(neighbor_med))
-			if len(neighbor_std)>= 3 and np.median(neighbor_std) - array.get(tmp)[0] < 1 and np.median(neighbor_med) - array.get(tmp)[1] < SPATIAL_THRESHOLD[pm_level]:
+			pm_level=config.get_pm_level(stats.trim_mean(neighbor_med, 0.1))
+			if len(neighbor_std) == 3 and np.median(neighbor_std) - array.get(tmp)[0] < 1 and np.median(neighbor_med) - array.get(tmp)[1] < SPATIAL_THRESHOLD[pm_level]:
+				temp2={'device_id':tmp,'rate':1}
+				feeds.append(temp2)
+			else len(neighbor_std) > 3 and stats.trim_mean(neighbor_std, 0.1) - array.get(tmp)[0] < 1 and stats.trim_mean(neighbor_med,0.1) - array.get(tmp)[1] < SPATIAL_THRESHOLD[pm_level]:
 				temp2={'device_id':tmp,'rate':1}
 				feeds.append(temp2)
 	except:pass
