@@ -59,7 +59,7 @@ for tmp in array:
 			if len(neighbor_std) == 3 and np.median(neighbor_std) - array.get(tmp)[0] < 1 and np.median(neighbor_med) - array.get(tmp)[1] < SPATIAL_THRESHOLD[pm_level]:
 				temp2={'device_id':tmp,'rate':1}
 				feeds.append(temp2)
-			else len(neighbor_std) > 3 and stats.trim_mean(neighbor_std, 0.1) - array.get(tmp)[0] < 1 and stats.trim_mean(neighbor_med,0.1) - array.get(tmp)[1] < SPATIAL_THRESHOLD[pm_level]:
+			elif len(neighbor_std) > 3 and stats.trim_mean(neighbor_std, 0.1) - array.get(tmp)[0] < 1 and stats.trim_mean(neighbor_med,0.1) - array.get(tmp)[1] < SPATIAL_THRESHOLD[pm_level]:
 				temp2={'device_id':tmp,'rate':1}
 				feeds.append(temp2)
 	except:pass
